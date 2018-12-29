@@ -1,13 +1,13 @@
-package com.example.demo;
+package az.task.management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class TaskManagementApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(TaskManagementApp.class, args);
 	}
 
 }
