@@ -1,4 +1,4 @@
-package com.example.demo;
+package az.task.management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

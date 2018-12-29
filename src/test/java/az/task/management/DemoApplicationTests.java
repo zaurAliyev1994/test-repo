@@ -1,4 +1,4 @@
-package com.example.demo;
+package az.task.management;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
