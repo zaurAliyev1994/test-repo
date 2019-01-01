@@ -15,7 +15,7 @@ public class TaskRestController {
     }
 
     @GetMapping("/tasks/{id}")
-    public Task getTaskById(@PathVariable int id) {
+    public Task getTaskById(@PathVariable Long id) {
         return null;
     }
 
@@ -25,12 +25,12 @@ public class TaskRestController {
     }
 
     @PutMapping("/tasks/{id}")
-    public void updateTask(@PathVariable int id){
+    public void updateTask(@PathVariable Long id){
 
     }
 
     @DeleteMapping("/tasks/{id}")
-    public void deleteTask(@PathVariable int id) {
+    public void deleteTask(@PathVariable Long id) {
 
     }
 
