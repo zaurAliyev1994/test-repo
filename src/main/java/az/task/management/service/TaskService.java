@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private Task theTask = new Task(Long.valueOf(1), "Write rest controller");
+    private Task theTask = new Task(new Long(1), "Write rest controller");
 
     public List<Task> getTaskList() {
         List<Task> taskList = new ArrayList<>();
