@@ -3,8 +3,11 @@ package az.task.management.service;
 import az.task.management.dao.TaskEntity;
 import az.task.management.mapper.TaskMapper;
 import az.task.management.model.TaskDto;
+import az.task.management.model.enums.TaskStatus;
 import az.task.management.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,21 +33,25 @@ public class TaskService {
         try {
             taskEntity = taskRepository.findById(id).orElseThrow(() -> new Exception("Task not found"));
         } catch (Exception e) {
-            //TODO
+            // TODO add exception handler
             e.printStackTrace();
         }
         return TaskMapper.INSTANCE.taskEntityToDto(taskEntity);
     }
 
     public TaskDto createTask(TaskDto task) {
-        task.setId(null);
         TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
+        taskEntity.setId(null);
+        taskEntity.setStatus(TaskStatus.CREATED);
+        taskEntity.setCreateDate(LocalDateTime.now());
+        taskEntity.setUpdateDate(LocalDateTime.now());
         return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
     }
 
     public TaskDto updateTask(Long id, TaskDto task){
-        task.setId(id);
         TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
+        taskEntity.setId(id);
+        taskEntity.setUpdateDate(LocalDateTime.now());
         return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
     }
 

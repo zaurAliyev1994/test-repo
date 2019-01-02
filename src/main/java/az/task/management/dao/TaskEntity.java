@@ -27,13 +27,13 @@ public class TaskEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "createDate")
+    @Column(name = "create_date")
     private LocalDateTime createDate;
 
-    @Column(name = "updateDate")
+    @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    @Column(name = "isDone")
+    @Column(name = "is_done")
     private boolean isDone;
 
     @Column(name = "status")
