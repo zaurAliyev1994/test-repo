@@ -1,36 +1,62 @@
 package az.task.management.service;
 
-import az.task.management.model.Task;
+import az.task.management.dao.TaskEntity;
+import az.task.management.mapper.TaskMapper;
+import az.task.management.model.TaskDto;
+import az.task.management.model.enums.TaskStatus;
+import az.task.management.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
 
-    private Task theTask = new Task(new Long(1), "Write rest controller");
+    private final TaskRepository taskRepository;
 
-    public List<Task> getTaskList() {
-        List<Task> taskList = new ArrayList<>();
-        taskList.add(theTask);
-        return taskList;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
-    public Task getTaskById(Long id) {
-        return theTask;
+    public List<TaskDto> getTaskList() {
+        List<TaskEntity> taskEntities = taskRepository.findAll();
+
+        return taskEntities.stream().filter(Objects::nonNull)
+                .map((taskEntity) -> TaskMapper.INSTANCE.taskEntityToDto(taskEntity)).collect(Collectors.toList());
     }
 
-    public Task createTask(Task task) {
-        return task;
+    public TaskDto getTaskById(Long id) {
+        TaskEntity taskEntity = null;
+        try {
+            taskEntity = taskRepository.findById(id).orElseThrow(() -> new Exception("Task not found"));
+        } catch (Exception e) {
+            // TODO add exception handler
+            e.printStackTrace();
+        }
+        return TaskMapper.INSTANCE.taskEntityToDto(taskEntity);
     }
 
-    public Task updateTask(Long id, Task task){
-        return task;
-
+    public TaskDto createTask(TaskDto task) {
+        TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
+        taskEntity.setId(null);
+        taskEntity.setStatus(TaskStatus.CREATED);
+        taskEntity.setCreateDate(LocalDateTime.now());
+        taskEntity.setUpdateDate(LocalDateTime.now());
+        return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
     }
+
+    public TaskDto updateTask(Long id, TaskDto task){
+        TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
+        taskEntity.setId(id);
+        taskEntity.setUpdateDate(LocalDateTime.now());
+        return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
+    }
+
     public void deleteTask(Long id) {
-
+        taskRepository.deleteById(id);
     }
 
 }
