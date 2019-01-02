@@ -4,3 +4,5 @@ spring:
     url: jdbc:hsqldb:mem:task-management
     username:
     password:
+  liquibase:
+    change-log: classpath:liquibase/changelog-master.xml
