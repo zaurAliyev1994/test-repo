@@ -1,14 +1,31 @@
 package az.task.management.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.time.LocalDateTime;
 
+@ApiModel("task dto")
 public class TaskDto {
+    @ApiModelProperty("task identifier")
     private Long id;
+
+    @ApiModelProperty("task name")
     private String name;
+
+    @ApiModelProperty("task description")
     private String description;
+
+    @ApiModelProperty("task creation date")
     private LocalDateTime createDate;
+
+    @ApiModelProperty("task update date")
     private LocalDateTime updateDate;
+
+    @ApiModelProperty("is done")
     private boolean isDone;
+
+    @ApiModelProperty("task status")
     private String status;
 
     public TaskDto() {
