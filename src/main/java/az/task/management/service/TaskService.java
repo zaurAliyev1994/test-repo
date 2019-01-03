@@ -6,13 +6,16 @@ import az.task.management.model.TaskDto;
 import az.task.management.model.enums.TaskStatus;
 import az.task.management.repository.TaskRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Validated
 public class TaskService {
 
     private final TaskRepository taskRepository;
@@ -28,7 +31,7 @@ public class TaskService {
                 .map((taskEntity) -> TaskMapper.INSTANCE.taskEntityToDto(taskEntity)).collect(Collectors.toList());
     }
 
-    public TaskDto getTaskById(Long id) {
+    public TaskDto getTaskById(@NotNull Long id) {
         TaskEntity taskEntity = null;
         try {
             taskEntity = taskRepository.findById(id).orElseThrow(() -> new Exception("Task not found"));
@@ -39,23 +42,26 @@ public class TaskService {
         return TaskMapper.INSTANCE.taskEntityToDto(taskEntity);
     }
 
-    public TaskDto createTask(TaskDto task) {
+    public TaskDto createTask(@NotNull TaskDto task) {
         TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
         taskEntity.setId(null);
         taskEntity.setStatus(TaskStatus.CREATED);
+        taskEntity.setDone(false);
         taskEntity.setCreateDate(LocalDateTime.now());
         taskEntity.setUpdateDate(LocalDateTime.now());
         return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
     }
 
-    public TaskDto updateTask(Long id, TaskDto task){
+    public TaskDto updateTask(@NotNull Long id, @NotNull TaskDto task){
         TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
         taskEntity.setId(id);
+        taskEntity.setDone(task.isDone());
+        taskEntity.setStatus(TaskStatus.CREATED);
         taskEntity.setUpdateDate(LocalDateTime.now());
         return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
     }
 
-    public void deleteTask(Long id) {
+    public void deleteTask(@NotNull Long id) {
         taskRepository.deleteById(id);
     }
 
