@@ -1,6 +1,7 @@
 package az.task.management.service;
 
 import az.task.management.dao.TaskEntity;
+import az.task.management.exception.TaskNotFoundException;
 import az.task.management.mapper.TaskMapper;
 import az.task.management.model.TaskDto;
 import az.task.management.model.enums.TaskStatus;
@@ -33,13 +34,10 @@ public class TaskService {
     }
 
     public TaskDto getTaskById(@NotNull Long id) {
-        TaskEntity taskEntity = null;
-        try {
-            taskEntity = taskRepository.findById(id).orElseThrow(() -> new Exception("Task not found"));
-        } catch (Exception e) {
-            // TODO add exception handler
-            e.printStackTrace();
-        }
+
+        TaskEntity taskEntity = taskRepository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException (String.format("Task with id=%s not found", id)));
+
         return TaskMapper.INSTANCE.taskEntityToDto(taskEntity);
     }
 
