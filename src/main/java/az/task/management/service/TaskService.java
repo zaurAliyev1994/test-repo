@@ -8,6 +8,7 @@ import az.task.management.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,7 +43,7 @@ public class TaskService {
         return TaskMapper.INSTANCE.taskEntityToDto(taskEntity);
     }
 
-    public TaskDto createTask(@NotNull TaskDto task) {
+    public TaskDto createTask(@NotNull @Valid TaskDto task) {
         TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
         taskEntity.setId(null);
         taskEntity.setStatus(TaskStatus.CREATED);
@@ -52,7 +53,7 @@ public class TaskService {
         return TaskMapper.INSTANCE.taskEntityToDto(taskRepository.save(taskEntity));
     }
 
-    public TaskDto updateTask(@NotNull Long id, @NotNull TaskDto task){
+    public TaskDto updateTask(@NotNull Long id, @NotNull @Valid TaskDto task){
         TaskEntity taskEntity = TaskMapper.INSTANCE.taskDtoToEntity(task);
         taskEntity.setId(id);
         taskEntity.setDone(task.isDone());
