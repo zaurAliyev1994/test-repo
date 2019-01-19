@@ -26,6 +26,6 @@ jobs:
         docker_layer_caching: true
     - run: *installDockerClient
     - run: docker build -t fati:latest .
-    - run: docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+    - run: docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
     - run: docker tag fati:latest fatibabayeva/fati
     - run: docker push fatibabayeva/fati
