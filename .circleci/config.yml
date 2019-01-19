@@ -12,7 +12,7 @@ installDockerClient: &installDockerClient
 jobs:
   build:
     docker:
-    - image: circleci/openjdk:8-jdk
+    - image: circleci/openjdk:8-jdk-node-browsers-legacy
 
     working_directory: ~/fati
     steps:
